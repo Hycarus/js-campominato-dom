@@ -16,7 +16,7 @@
     background-color: aqua;
 }
 body{
-    background-image: url(../../img/minato.jpeg);
+    background-image: url(../img/minato.jpeg);
     background-size: cover;
     background-repeat: no-repeat;
 }
