@@ -1,0 +1,22 @@
+#wrapper{
+    width: 700px;
+    height: 700px;
+    margin: 0 auto;
+    background-color: rgba(0, 0, 0, 0.800);
+}
+
+.box{
+    border:1px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.active {
+    background-color: aqua;
+}
+body{
+    background-image: url(../../img/minato.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
