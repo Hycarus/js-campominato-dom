@@ -9,6 +9,7 @@ function campoMinato(){
     const option = document.getElementById('select');
     let remind = false;
     let scoreEl = document.getElementById('score');
+    let bombAudio = new Audio('../audio/explosion.mp3')
     btn.addEventListener('click', function(){
         const selector = parseInt(document.querySelector('select').value);
         // generare tot quadratini
@@ -48,6 +49,7 @@ function campoMinato(){
                     this.classList.add('bomb');
                     this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
                     gameOver(bombs);
+                    bombAudio.play();
                     remind = true;
                     scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
                 } else{
