@@ -9,22 +9,27 @@ function campoMinato(){
     const option = document.getElementById('select');
     let remind = false;
     let scoreEl = document.getElementById('score');
-    let bombAudio = new Audio('../audio/explosion.mp3')
+    let bombAudio = new Audio('../audio/explosion.mp3');
+    let bombs;
+    let selector;
+    let box;
+    let activeBox;
     btn.addEventListener('click', function(){
-        const selector = parseInt(document.querySelector('select').value);
+        selector = parseInt(document.querySelector('select').value);
         // generare tot quadratini
         const wrapper = document.getElementById('wrapper');
         let scoreEl = document.getElementById('score');
+        score = 0;
         scoreEl.innerHTML = '';
         wrapper.innerHTML = '';
         // array bombe
-        let bombs = generateBombs(selector);
+        bombs = generateBombs();
         // ciclo for per stampare i quadratini
         for(let i = 0; i < selector; i++){
-            let box = drawBox(i, selector, bombs);
+            box = drawBox(i);
             wrapper.append(box);
         }
-    })
+    });
     btnReset.addEventListener('click', function(){
         score = 0;
         scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
@@ -33,13 +38,13 @@ function campoMinato(){
         btnReset.classList.add('d-none');
         btn.classList.remove('d-none');
         option.classList.remove('d-none');
-    })
+    });
     // disegno un quadrato
-    function drawBox(indexBox, numCell, bombs){
-        const maxAttempt = numCell - NUM_BOMB;
+    function drawBox(indexBox){
+        const maxAttempt = selector - NUM_BOMB;
         const box = document.createElement('div');
         box.classList.add('box');
-        box.style.width = `calc(100% / ${Math.sqrt(numCell)})`;
+        box.style.width = `calc(100% / ${Math.sqrt(selector)})`;
         box.style.height = box.style.width;
         box.innerHTML = indexBox + 1;
         box.style.color = 'white';
@@ -48,7 +53,7 @@ function campoMinato(){
                 if(bombs.includes(parseInt(indexBox + 1))){
                     this.classList.add('bomb');
                     this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
-                    gameOver(bombs);
+                    gameOver();
                     bombAudio.play();
                     remind = true;
                     scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
@@ -57,8 +62,9 @@ function campoMinato(){
                     this.style.color = 'black';
                     console.log(indexBox + 1);
                     score++;
+                    checker(box);
                     if(score === maxAttempt){
-                        gameOver(bombs);
+                        gameOver();
                         remind = true;
                         scoreEl.innerHTML = `You Win! Il tuo punteggio è: ${score}`;
                     } else{
@@ -69,11 +75,11 @@ function campoMinato(){
                 box.removeEventListener('click', boxClick);
             }
             box.removeEventListener('click', boxClick);
-        })
+        });
         return box;
-    }
+    };
     // genero le bombe
-    function generateBombs(selector){
+    function generateBombs(){
         const bombsArray = [];
         while(bombsArray.length < NUM_BOMB){
             let bomb = getRndInteger(1, selector);
@@ -84,9 +90,9 @@ function campoMinato(){
         }
         console.log(bombsArray.sort());
         return bombsArray;
-    }
+    };
     // che succede se si fa gameover
-    function gameOver(bombs, selector){
+    function gameOver(){
         const arrayBoxBombs = document.getElementsByClassName('box');
         for(let i = 0; i < arrayBoxBombs.length; i++){
             let el = arrayBoxBombs[i];
@@ -99,7 +105,103 @@ function campoMinato(){
                 option.classList.add('d-none');
             }
         }
+    };
+
+    function checker(box){
+        activeBox = document.getElementsByClassName('box');
+        let nearArray = [];
+        let y = parseInt(box.innerHTML);
+        console.log(y);
+        let radice = parseInt(Math.sqrt(selector));
+        let down = y + radice;
+        let up = y - radice;
+        let left = y - 1;
+        let right = y + 1;
+        let bombNumber = 0;
+        if(y / selector === 1){
+            nearArray.push(up, left);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei primo')
+        } else if(y / radice === 1){
+            nearArray.push(down, left);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            console.log('sei nei secondo')
+            box.innerHTML = bombNumber;
+        } else if(y * 1 === 1){
+            nearArray.push(down, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei terzo')
+        } else if((y + (radice - 1))/ selector === 1){
+            nearArray.push(up, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei quarto')
+        } else if(y < radice){
+            nearArray.push(down, left, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei quinto')
+        } else if(y > (selector - radice)){
+            nearArray.push(up, left, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei sesto')
+        } else if ((y - 1) % radice === 0){
+            nearArray.push(up, down, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+            console.log('sei nei settimo')
+        } else if (y % radice === 0){
+            nearArray.push(up, down, left);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    bombNumber++;
+                }
+            }
+            box.innerHTML = bombNumber;
+        } else{
+            nearArray.push(up, down, left, right);
+            for(let i = 0; i < nearArray.length; i++){
+                if(bombs.includes(nearArray[i])){
+                    console.log('you did it bro');
+                    bombNumber++;
+                }
+            }
+            console.log('sei nell ottavo');
+            console.log(nearArray);
+            box.innerHTML = bombNumber;
+        }
     }
-}
+};
 
 
