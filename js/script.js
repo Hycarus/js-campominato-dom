@@ -8,6 +8,7 @@ function campoMinato(){
     const btnReset = document.getElementById('reset');
     const option = document.getElementById('select');
     let remind = false;
+    let scoreEl = document.getElementById('score');
     btn.addEventListener('click', function(){
         const selector = parseInt(document.querySelector('select').value);
         // generare tot quadratini
@@ -24,6 +25,8 @@ function campoMinato(){
         }
     })
     btnReset.addEventListener('click', function(){
+        score = 0;
+        scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
         wrapper.innerHTML = '';
         remind = false;
         btnReset.classList.add('d-none');
@@ -40,7 +43,6 @@ function campoMinato(){
         box.innerHTML = indexBox + 1;
         box.style.color = 'white';
         box.addEventListener('click', function boxClick(){
-            let scoreEl = document.getElementById('score');
             if(remind === false){
                 if(bombs.includes(parseInt(indexBox + 1))){
                     this.classList.add('bomb');
@@ -54,6 +56,8 @@ function campoMinato(){
                     console.log(indexBox + 1);
                     score++;
                     if(score === maxAttempt){
+                        gameOver(bombs);
+                        remind = true;
                         scoreEl.innerHTML = `You Win! Il tuo punteggio è: ${score}`;
                     } else{
                         scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
@@ -76,7 +80,7 @@ function campoMinato(){
                 bombsArray.push(bomb);
             }
         }
-        console.log(bombsArray);
+        console.log(bombsArray.sort());
         return bombsArray;
     }
     // che succede se si fa gameover
