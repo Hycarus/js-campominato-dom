@@ -5,6 +5,7 @@ function campoMinato(){
     const NUM_BOMB = 16;
     let score = 0;
     const btn = document.querySelector('button');
+    let remind = false;
     btn.addEventListener('click', function(){
         const selector = parseInt(document.querySelector('select').value);
         // generare tot quadratini
@@ -31,23 +32,28 @@ function campoMinato(){
         box.style.color = 'white';
         box.addEventListener('click', function boxClick(){
             let scoreEl = document.getElementById('score');
-            if(bombs.includes(parseInt(indexBox + 1))){
-                this.classList.add('bomb');
-                this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
-                box.removeEventListener('click', boxClick);
-                gameOver(bombs);
-                scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
-            } else{
-                this.classList.add('active');
-                this.style.color = 'black';
-                console.log(indexBox + 1);
-                score++;
-                if(score === maxAttempt){
-                    scoreEl.innerHTML = `You Win! Il tuo punteggio è: ${score}`;
+            if(remind === false){
+                if(bombs.includes(parseInt(indexBox + 1))){
+                    this.classList.add('bomb');
+                    this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
+                    gameOver(bombs);
+                    remind = true;
+                    scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
                 } else{
-                    scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
+                    this.classList.add('active');
+                    this.style.color = 'black';
+                    console.log(indexBox + 1);
+                    score++;
+                    if(score === maxAttempt){
+                        scoreEl.innerHTML = `You Win! Il tuo punteggio è: ${score}`;
+                    } else{
+                        scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
+                    }
                 }
+            } else{
+                box.removeEventListener('click', boxClick);
             }
+            
             box.removeEventListener('click', boxClick);
 
         })
@@ -75,7 +81,6 @@ function campoMinato(){
                 el.classList.add('bomb');
                 el.style.color = 'black';
                 el.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
-                console.log(el);
             }
         }
     }
