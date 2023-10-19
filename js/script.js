@@ -4,7 +4,9 @@ campoMinato();
 function campoMinato(){
     const NUM_BOMB = 16;
     let score = 0;
-    const btn = document.querySelector('button');
+    const btn = document.getElementById('start');
+    const btnReset = document.getElementById('reset');
+    const option = document.getElementById('select');
     let remind = false;
     btn.addEventListener('click', function(){
         const selector = parseInt(document.querySelector('select').value);
@@ -20,6 +22,13 @@ function campoMinato(){
             let box = drawBox(i, selector, bombs);
             wrapper.append(box);
         }
+    })
+    btnReset.addEventListener('click', function(){
+        wrapper.innerHTML = '';
+        remind = false;
+        btnReset.classList.add('d-none');
+        btn.classList.remove('d-none');
+        option.classList.remove('d-none');
     })
     // disegno un quadrato
     function drawBox(indexBox, numCell, bombs){
@@ -53,9 +62,7 @@ function campoMinato(){
             } else{
                 box.removeEventListener('click', boxClick);
             }
-            
             box.removeEventListener('click', boxClick);
-
         })
         return box;
     }
@@ -73,7 +80,7 @@ function campoMinato(){
         return bombsArray;
     }
     // che succede se si fa gameover
-    function gameOver(bombs){
+    function gameOver(bombs, selector){
         const arrayBoxBombs = document.getElementsByClassName('box');
         for(let i = 0; i < arrayBoxBombs.length; i++){
             let el = arrayBoxBombs[i];
@@ -81,6 +88,9 @@ function campoMinato(){
                 el.classList.add('bomb');
                 el.style.color = 'black';
                 el.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
+                btnReset.classList.remove('d-none');
+                btn.classList.add('d-none');
+                option.classList.add('d-none');
             }
         }
     }
