@@ -9,6 +9,8 @@ function campoMinato(){
         const selector = parseInt(document.querySelector('select').value);
         // generare tot quadratini
         const wrapper = document.getElementById('wrapper');
+        let scoreEl = document.getElementById('score');
+        scoreEl.innerHTML = '';
         wrapper.innerHTML = '';
         // array bombe
         let bombs = generateBombs(selector);
@@ -28,25 +30,26 @@ function campoMinato(){
         box.innerHTML = indexBox + 1;
         box.style.color = 'white';
         box.addEventListener('click', function boxClick(){
-            let msg;
+            let scoreEl = document.getElementById('score');
             if(bombs.includes(parseInt(indexBox + 1))){
-                console.log('boom');
                 this.classList.add('bomb');
                 this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
+                box.removeEventListener('click', boxClick);
                 gameOver(bombs);
-                msg = `You Lose! Il tuo punteggio è: ${score}`;
+                scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
             } else{
                 this.classList.add('active');
                 this.style.color = 'black';
                 console.log(indexBox + 1);
                 score++;
                 if(score === maxAttempt){
-                    msg = `You Win! Il tuo punteggio è: ${score}`;
+                    scoreEl.innerHTML = `You Win! Il tuo punteggio è: ${score}`;
                 } else{
-                    msg = `Il tuo punteggio è: ${score}`;
+                    scoreEl.innerHTML = `Il tuo punteggio è: ${score}`;
                 }
             }
             box.removeEventListener('click', boxClick);
+
         })
         return box;
     }
@@ -68,10 +71,11 @@ function campoMinato(){
         const arrayBoxBombs = document.getElementsByClassName('box');
         for(let i = 0; i < arrayBoxBombs.length; i++){
             let el = arrayBoxBombs[i];
-            if(bombs.includes(parseInt(el.textcontent))){
+            if(bombs.includes(parseInt(el.innerHTML))){
                 el.classList.add('bomb');
-                el.style.color('black');
+                el.style.color = 'black';
                 el.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
+                console.log(el);
             }
         }
     }
