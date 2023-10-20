@@ -54,7 +54,8 @@ function campoMinato(){
                     this.classList.add('bomb');
                     this.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
                     gameOver();
-                    bombAudio.play();
+                    // bombAudio.play();
+
                     remind = true;
                     scoreEl.innerHTML = `You Lose! Il tuo punteggio è: ${score}`;
                 } else{
@@ -96,7 +97,7 @@ function campoMinato(){
         const arrayBoxBombs = document.getElementsByClassName('box');
         for(let i = 0; i < arrayBoxBombs.length; i++){
             let el = arrayBoxBombs[i];
-            if(bombs.includes(parseInt(el.innerHTML))){
+            if(bombs.includes(i + 1)){
                 el.classList.add('bomb');
                 el.style.color = 'black';
                 el.innerHTML = '<i class="fa-solid fa-bomb fa-beat"></i>';
