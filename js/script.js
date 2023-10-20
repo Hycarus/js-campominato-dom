@@ -125,7 +125,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei primo')
         } else if(y / radice === 1){
             nearArray.push(down, left);
@@ -135,7 +134,6 @@ function campoMinato(){
                 }
             }
             console.log('sei nei secondo')
-            box.innerHTML = bombNumber;
         } else if(y * 1 === 1){
             nearArray.push(down, right);
             for(let i = 0; i < nearArray.length; i++){
@@ -143,7 +141,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei terzo')
         } else if((y + (radice - 1))/ selector === 1){
             nearArray.push(up, right);
@@ -152,7 +149,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei quarto')
         } else if(y < radice){
             nearArray.push(down, left, right);
@@ -161,7 +157,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei quinto')
         } else if(y > (selector - radice)){
             nearArray.push(up, left, right);
@@ -170,7 +165,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei sesto')
         } else if ((y - 1) % radice === 0){
             nearArray.push(up, down, right);
@@ -179,7 +173,6 @@ function campoMinato(){
                     bombNumber++;
                 }
             }
-            box.innerHTML = bombNumber;
             console.log('sei nei settimo')
         } else if (y % radice === 0){
             nearArray.push(up, down, left);
@@ -199,7 +192,20 @@ function campoMinato(){
             }
             console.log('sei nell ottavo');
             console.log(nearArray);
-            box.innerHTML = bombNumber;
+        }
+        box.innerHTML = bombNumber;
+        box.classList.add('fw-bold');
+        box.classList.add('fs-5');
+        if(bombNumber === 4){
+            box.style.color = 'black';
+        } else if(bombNumber === 3){
+            box.style.color = 'red';
+        } else if(bombNumber === 2){
+            box.style.color = 'orange';
+        } else if( bombNumber === 1){
+            box.style.color = 'yellow';
+        } else{
+            box.style.color = 'green';
         }
     }
 };

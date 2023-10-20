@@ -12,7 +12,7 @@
     justify-content: center;
 }
 .active {
-    background-color: aqua;
+    background-color: rgba(0, 255, 255, 0.718);
 }
 body{
     background-image: url(../img/minato.jpeg);
